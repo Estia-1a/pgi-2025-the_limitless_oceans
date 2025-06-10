@@ -12,5 +12,13 @@
  */
 
 void helloWorld() {
-    printf("Hello World !");
+    printf("Hello Tonio !");
+}
+
+void dimension (char *source_path) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    printf("dimension: %d, %d\n", width, height);
 }

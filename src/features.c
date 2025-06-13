@@ -62,3 +62,7 @@ void second_line(char *source_path) {
 
     printf("second_line: %d, %d, %d\n", r, g, b);
 }
+
+void print_pixel( char *filename, int x, int y ) {
+    
+}

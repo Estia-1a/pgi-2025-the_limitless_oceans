@@ -64,5 +64,12 @@ void second_line(char *source_path) {
 }
 
 void print_pixel( char *filename, int x, int y ) {
-    
+    unsigned char *data = NULL;
+    int width = 0, height = 0, n = 0;
+ 
+    read_image_data(filename, &data, &width, &height, &n);
+ 
+    pixelRGB *px = get_pixel(data, width, height, n, x, y);
+ 
+    printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, px->R, px->G, px->B);
 }

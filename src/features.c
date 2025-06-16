@@ -99,3 +99,29 @@ void max_pixel(char *source_path) {
     p = get_pixel(data, largeur, hauteur, n, max_x, max_y);
     printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, (int)p->R, (int)p->G, (int)p->B);
 }
+
+void min_pixel(char *source_path) {
+    unsigned char *data = NULL;
+    int largeur = 0, hauteur = 0, n = 0;
+ 
+    read_image_data(source_path, &data, &largeur, &hauteur, &n);
+ 
+    int somme_min = 256 * 3 + 1;
+    int min_x = 0, min_y = 0;
+    pixelRGB *p;
+ 
+    for (int y = 0; y < hauteur; y++) {
+        for (int x = 0; x < largeur; x++) {
+            p = get_pixel(data, largeur, hauteur, n, x, y);
+            int somme = p->R + p->G + p->B;
+            if (somme < somme_min) {
+                somme_min = somme;
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+ 
+    p = get_pixel(data, largeur, hauteur, n, min_x, min_y);
+    printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, (int)p->R, (int)p->G, (int)p->B);
+}

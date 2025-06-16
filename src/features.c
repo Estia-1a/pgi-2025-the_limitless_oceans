@@ -73,3 +73,29 @@ void print_pixel( char *filename, int x, int y ) {
 
     printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, px->R, px->G, px->B);
 }
+
+void max_pixel(char *source_path) {
+    unsigned char *data = NULL;
+    int largeur = 0, hauteur = 0, n = 0;
+ 
+    read_image_data(source_path, &data, &largeur, &hauteur, &n);
+ 
+    int somme_max = -1;
+    int max_x = 0, max_y = 0;
+    pixelRGB *p;
+ 
+    for (int y = 0; y < hauteur; y++) {
+        for (int x = 0; x < largeur; x++) {
+            p = get_pixel(data, largeur, hauteur, n, x, y);
+            int somme = p->R + p->G + p->B;
+            if (somme > somme_max) {
+                somme_max = somme;
+                max_x = x;
+                max_y = y;
+            }
+        }
+    }
+ 
+    p = get_pixel(data, largeur, hauteur, n, max_x, max_y);
+    printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, (int)p->R, (int)p->G, (int)p->B);
+}

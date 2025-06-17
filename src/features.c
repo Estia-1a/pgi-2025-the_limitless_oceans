@@ -125,3 +125,69 @@ void min_pixel(char *source_path) {
     p = get_pixel(data, largeur, hauteur, n, min_x, min_y);
     printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, (int)p->R, (int)p->G, (int)p->B);
 }
+
+void max_component(char *source_path, char composante) {
+    unsigned char *donnees = NULL;
+    int largeur = 0, hauteur = 0, canaux = 0;
+
+    read_image_data(source_path, &donnees, &largeur, &hauteur, &canaux);
+
+    int max = -1;
+    int x = 0, y = 0;
+
+    for (int j = 0; j < hauteur; j++) {
+        for (int i = 0; i < largeur; i++) {
+            pixelRGB *pixel = get_pixel(donnees, largeur, hauteur, canaux, i, j);
+
+            int valeur = 0;
+            if (composante == 'R') {
+                valeur = pixel->R;
+            } else if (composante == 'G') {
+                valeur = pixel->G;
+            } else if (composante == 'B') {
+                valeur = pixel->B;
+            }
+
+            if (valeur > max) {
+                max = valeur;
+                x = i;
+                y = j;
+            }
+        }
+    }
+
+    printf("max_component %c (%d, %d): %d\n", composante, x, y, max);
+}
+
+void min_component(char *source_path, char composante) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int min = 256;
+    int x = 0, y = 0;
+
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            pixelRGB *pixel = get_pixel(data, width, height, channel_count, i, j);
+
+            int valeur = 0;
+            if (composante == 'R') {
+                valeur = pixel->R;
+            } else if (composante == 'G') {
+                valeur = pixel->G;
+            } else if (composante == 'B') {
+                valeur = pixel->B;
+            }
+
+            if (valeur < min) {
+                min = valeur;
+                x = i;
+                y = j;
+            }
+        }
+    }
+
+    printf("min_component %c (%d, %d): %d\n", composante, x, y, min);
+}

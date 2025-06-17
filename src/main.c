@@ -67,6 +67,9 @@ else if (strncmp(configuration.command, "min_component", 13) == 0) {
     char composante = configuration.arguments[0][0];
     min_component(configuration.filenames[0], composante);
 }
+else if (strncmp(configuration.command, "stat_report", 11) == 0) {
+    stat_report(configuration.filenames[0]);
+}
   /*
    * TO COMPLETE
    */

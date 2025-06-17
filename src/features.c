@@ -191,3 +191,82 @@ void min_component(char *source_path, char composante) {
 
     printf("min_component %c (%d, %d): %d\n", composante, x, y, min);
 }
+
+void stat_report(char *source_path) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, n = 0;
+    read_image_data(source_path, &data, &width, &height, &n);
+ 
+    FILE *fichier = fopen("stat_report.txt", "w");
+ 
+    int max_somme = -1, x_max = 0, y_max = 0;
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            pixelRGB *pixel = get_pixel(data, width, height, n, i, j);
+            int somme = pixel->R + pixel->G + pixel->B;
+            if (somme > max_somme) {
+                max_somme = somme;
+                x_max = i;
+                y_max = j;
+            }
+        }
+    }
+    fprintf(fichier, "max_pixel (%d, %d): %d, %d, %d\n\n", x_max, y_max,
+            get_pixel(data, width, height, n, x_max, y_max)->R,
+            get_pixel(data, width, height, n, x_max, y_max)->G,
+            get_pixel(data, width, height, n, x_max, y_max)->B);
+ 
+    int min_somme = 256 * 3 + 1, x_min = 0, y_min = 0;
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            pixelRGB *pixel = get_pixel(data, width, height, n, i, j);
+            int somme = pixel->R + pixel->G + pixel->B;
+            if (somme < min_somme) {
+                min_somme = somme;
+                x_min = i;
+                y_min = j;
+            }
+        }
+    }
+    fprintf(fichier, "min_pixel (%d, %d): %d, %d, %d\n\n", x_min, y_min,
+            get_pixel(data, width, height, n, x_min, y_min)->R,
+            get_pixel(data, width, height, n, x_min, y_min)->G,
+            get_pixel(data, width, height, n, x_min, y_min)->B);
+ 
+    char composants[] = {'R', 'G', 'B'};
+    for (int k = 0; k < 3; k++) {
+        char c = composants[k];
+        int val_max = -1, x = 0, y = 0;
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
+                pixelRGB *pixel = get_pixel(data, width, height, n, i, j);
+                int val = (c == 'R') ? pixel->R : (c == 'G') ? pixel->G : pixel->B;
+                if (val > val_max) {
+                    val_max = val;
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+        fprintf(fichier, "max_component %c (%d, %d): %d\n\n", c, x, y, val_max);
+    }
+ 
+    for (int k = 0; k < 3; k++) {
+        char c = composants[k];
+        int val_min = 256, x = 0, y = 0;
+        for (int j = 0; j < height; j++) {
+            for (int i = 0; i < width; i++) {
+                pixelRGB *pixel = get_pixel(data, width, height, n, i, j);
+                int val = (c == 'R') ? pixel->R : (c == 'G') ? pixel->G : pixel->B;
+                if (val < val_min) {
+                    val_min = val;
+                    x = i;
+                    y = j;
+                }
+            }
+        }
+        fprintf(fichier, "min_component %c (%d, %d): %d\n\n", c, x, y, val_min);
+    }
+ 
+    fclose(fichier);
+}

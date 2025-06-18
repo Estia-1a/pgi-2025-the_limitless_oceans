@@ -322,3 +322,21 @@ void color_blue(char *source_path) {
     write_image_data("image_out.bmp", data, width, height);
 }
 
+void color_gray(char *source_path) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            pixelRGB *pixel = get_pixel(data, width, height, channel_count, i, j);
+            unsigned char moyenne = (pixel->R + pixel->G + pixel->B) / 3;
+            pixel->R = moyenne;
+            pixel->G = moyenne;
+            pixel->B = moyenne;
+        }
+    }
+
+    write_image_data("image_out.bmp", data, width, height);
+}

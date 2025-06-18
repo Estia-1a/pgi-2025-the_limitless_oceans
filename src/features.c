@@ -358,3 +358,22 @@ void color_invert(char *source_path) {
 
     write_image_data("image_out.bmp", data, width, height);
 }
+
+void color_gray_luminance(char *source_path) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            pixelRGB *pixel = get_pixel(data, width, height, channel_count, i, j);
+            unsigned char value = (unsigned char)(0.21 * pixel->R + 0.72 * pixel->G + 0.07 * pixel->B);
+            pixel->R = value;
+            pixel->G = value;
+            pixel->B = value;
+        }
+    }
+
+    write_image_data("image_out.bmp", data, width, height);
+}

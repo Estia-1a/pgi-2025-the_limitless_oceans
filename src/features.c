@@ -287,3 +287,20 @@ void color_red(char *source_path) {
  
     write_image_data("image_out.bmp", data, width, height);
 }
+
+void color_green(char *source_path) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+ 
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+ 
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            pixelRGB *pixel = get_pixel(data, width, height, channel_count, i, j);
+            pixel->R = 0;
+            pixel->B = 0;
+        }
+    }
+ 
+    write_image_data("image_out.bmp", data, width, height);
+}

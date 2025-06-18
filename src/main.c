@@ -88,6 +88,9 @@ else if (strncmp(configuration.command, "color_invert", 12) == 0) {
 else if (strncmp(configuration.command, "color_gray_luminance", 21) == 0) {
     color_gray_luminance(configuration.filenames[0]);
 }
+else if (strncmp(configuration.command, "color_desaturate", 16) == 0) {
+    color_desaturate(configuration.filenames[0]);
+}
   /*
    * TO COMPLETE
    */

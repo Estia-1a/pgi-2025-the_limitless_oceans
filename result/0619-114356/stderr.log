@@ -1,0 +1,17 @@
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c: In function ‘rotate_cw’:
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c:419:35: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+  419 |     unsigned char *rotated_data = malloc(new_width * new_height * channel_count);
+      |                                   ^~~~~~
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c:6:1: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+    5 | #include "utils.h"
+  +++ |+#include <stdlib.h>
+    6 | 
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c:419:35: warning: incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+  419 |     unsigned char *rotated_data = malloc(new_width * new_height * channel_count);
+      |                                   ^~~~~~
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c:419:35: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c: In function ‘rotate_acw’:
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c:444:31: warning: incompatible implicit declaration of built-in function ‘malloc’ [-Wbuiltin-declaration-mismatch]
+  444 |     unsigned char *new_data = malloc(new_width * new_height * channel_count);
+      |                               ^~~~~~
+/home/runner/work/pgi-2025-the_limitless_oceans/pgi-2025-the_limitless_oceans/src/features.c:444:31: note: include ‘<stdlib.h>’ or provide a declaration of ‘malloc’

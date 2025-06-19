@@ -406,3 +406,4 @@ void color_desaturate(char *source_path) {
 
     write_image_data("image_out.bmp", data, width, height);
 }
+

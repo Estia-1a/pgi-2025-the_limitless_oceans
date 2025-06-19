@@ -589,4 +589,65 @@ void scale_nearest(char *source_path, float scale) {
     // Sauvegarde de l'image redimensionnée
     write_image_data("image_out.bmp", new_data, new_width, new_height);
 }
+void scale_bilinear(char *source_path, float scale) {
+    if (scale <= 0.0f) {
+        printf("Erreur : le facteur d’échelle doit être strictement positif.\n");
+        return;
+    }
+
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int new_width = (int)(width * scale);
+    int new_height = (int)(height * scale);
+    unsigned char *new_data = malloc(new_width * new_height * channel_count);
+
+    if (!new_data) {
+        printf("Erreur d’allocation mémoire.\n");
+        return;
+    }
+
+    for (int y_new = 0; y_new < new_height; y_new++) {
+        for (int x_new = 0; x_new < new_width; x_new++) {
+
+            float x_orig = x_new / scale;
+            float y_orig = y_new / scale;
+
+            int x0 = (int)floor(x_orig);
+            int x1 = x0 + 1;
+            int y0 = (int)floor(y_orig);
+            int y1 = y0 + 1;
+
+            // Clamp to image boundaries
+            x0 = x0 < 0 ? 0 : (x0 >= width ? width - 1 : x0);
+            x1 = x1 < 0 ? 0 : (x1 >= width ? width - 1 : x1);
+            y0 = y0 < 0 ? 0 : (y0 >= height ? height - 1 : y0);
+            y1 = y1 < 0 ? 0 : (y1 >= height ? height - 1 : y1);
+
+            float dx = x_orig - x0;
+            float dy = y_orig - y0;
+
+            for (int c = 0; c < channel_count; c++) {
+                float q11 = data[(y0 * width + x0) * channel_count + c];
+                float q21 = data[(y0 * width + x1) * channel_count + c];
+                float q12 = data[(y1 * width + x0) * channel_count + c];
+                float q22 = data[(y1 * width + x1) * channel_count + c];
+
+                float r1 = q11 + dx * (q21 - q11);
+                float r2 = q12 + dx * (q22 - q12);
+                float p = r1 + dy * (r2 - r1);
+
+                // Clamp result to [0, 255]
+                if (p < 0) p = 0;
+                if (p > 255) p = 255;
+
+                new_data[(y_new * new_width + x_new) * channel_count + c] = (unsigned char)(p);
+            }
+        }
+    }
+
+    write_image_data("image_out.bmp", new_data, new_width, new_height);
+}
 

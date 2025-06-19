@@ -407,3 +407,27 @@ void color_desaturate(char *source_path) {
     write_image_data("image_out.bmp", data, width, height);
 }
 
+void rotate_cw(char *source_path) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+ 
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+ 
+    int new_width = height;
+    int new_height = width;
+
+    unsigned char *rotated_data = malloc(new_width * new_height * channel_count);
+ 
+    for (int j = 0; j < height; j++) {
+        for (int i = 0; i < width; i++) {
+            pixelRGB *src_pixel = get_pixel(data, width, height, channel_count, i, j);
+            pixelRGB *dst_pixel = get_pixel(rotated_data, new_width, new_height, channel_count, height - 1 - j, i);
+ 
+            dst_pixel->R = src_pixel->R;
+            dst_pixel->G = src_pixel->G;
+            dst_pixel->B = src_pixel->B;
+        }
+    }
+ 
+    write_image_data("image_out.bmp", rotated_data, new_width, new_height);
+}

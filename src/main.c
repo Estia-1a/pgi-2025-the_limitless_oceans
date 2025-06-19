@@ -106,13 +106,18 @@ else if (strncmp(configuration.command, "mirror_vertical", 15) == 0) {
 else if (strncmp(configuration.command, "mirror_total", 12) == 0) {
     mirror_total(configuration.filenames[0]);
 }
- else if (strncmp(configuration.command, "scale_crop", 10) == 0) {
+else if (strncmp(configuration.command, "scale_crop", 10) == 0) {
     int center_x = atoi(configuration.arguments[0]);
     int center_y = atoi(configuration.arguments[1]);
     int width = atoi(configuration.arguments[2]);
     int height = atoi(configuration.arguments[3]);
     scale_crop (configuration.filenames[0], center_x, center_y, width, height);
 }
+else if (strncmp(configuration.command, "scale_nearest", 13) == 0) {
+    float scale = atof(configuration.arguments[0]);
+    scale_nearest(configuration.filenames[0], scale);
+}
+
 /*
    * TO COMPLETE
    */

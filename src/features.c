@@ -514,4 +514,35 @@ void mirror_total(char *source_path) {
         }
     }
     write_image_data("image_out.bmp", new_data, width, height);
+
+}
+void crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    int start_x = center_x - crop_width / 2;
+    int start_y = center_y - crop_height / 2;
+
+    unsigned char *cropped_data = malloc(crop_width * crop_height * channel_count);
+
+    for (int j = 0; j < crop_height; j++) {
+        for (int i = 0; i < crop_width; i++) {
+            int src_x = start_x + i;
+            int src_y = start_y + j;
+
+            for (int c = 0; c < channel_count; c++) {
+                if (src_x >= 0 && src_x < width && src_y >= 0 && src_y < height) {
+                    cropped_data[(j * crop_width + i) * channel_count + c] =
+                        data[(src_y * width + src_x) * channel_count + c];
+                } else {
+                    // Remplir en noir si on sort de l'image
+                    cropped_data[(j * crop_width + i) * channel_count + c] = 0;
+                }
+            }
+        }
+    }
+
+    write_image_data("image_out.bmp", cropped_data, crop_width, crop_height);
 }

@@ -106,7 +106,14 @@ else if (strncmp(configuration.command, "mirror_vertical", 15) == 0) {
 else if (strncmp(configuration.command, "mirror_total", 12) == 0) {
     mirror_total(configuration.filenames[0]);
 }
-  /*
+ else if (strncmp(configuration.command, "crop", 4) == 0) {
+    int center_x = atoi(configuration.arguments[0]);
+    int center_y = atoi(configuration.arguments[1]);
+    int width = atoi(configuration.arguments[2]);
+    int height = atoi(configuration.arguments[3]);
+    crop(configuration.filenames[0], center_x, center_y, width, height);
+}
+/*
    * TO COMPLETE
    */
   

@@ -516,7 +516,7 @@ void mirror_total(char *source_path) {
     write_image_data("image_out.bmp", new_data, width, height);
 
 }
-void crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
     unsigned char *data = NULL;
     int width = 0, height = 0, channel_count = 0;
 
